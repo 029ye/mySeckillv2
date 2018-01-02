@@ -6,6 +6,7 @@ import com.ye.dto.Exposer;
 import com.ye.dto.SeckillExecution;
 import com.ye.entity.Seckill;
 import com.ye.entity.SuccessKill;
+import com.ye.enums.SeckillStateEnum;
 import com.ye.exception.RepeatKillException;
 import com.ye.exception.SeckillCloseException;
 import com.ye.exception.SeckillException;
@@ -74,7 +75,7 @@ public class SeckillServiceImpl implements SeckillService {
                     throw new RepeatKillException("重复秒杀");
                 } else {
                     SuccessKill successKill = successKillDao.queryByIdWithSeckill(seckillId, phone);
-                    return new SeckillExecution(seckillId, 1, "秒杀成功", successKill);
+                    return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS, successKill);
                 }
             }
         } catch (SeckillCloseException e) {

@@ -1,6 +1,7 @@
 package com.ye.dto;
 
 import com.ye.entity.SuccessKill;
+import com.ye.enums.SeckillStateEnum;
 
 /**
  * 秒杀执行后结果
@@ -13,17 +14,17 @@ public class SeckillExecution {
 
     private SuccessKill successKill;
 
-    public SeckillExecution(long seckillId, int state, String stateInfo, SuccessKill successKill) {
+    public SeckillExecution(long seckillId, SeckillStateEnum state, SuccessKill successKill) {
         this.seckillId = seckillId;
-        this.state = state;
-        this.stateInfo = stateInfo;
+        this.state = state.getState();
+        this.stateInfo = state.getStateInfo();
         this.successKill = successKill;
     }
 
-    public SeckillExecution(long seckillId, int state, String stateInfo) {
+    public SeckillExecution(long seckillId, SeckillStateEnum state) {
         this.seckillId = seckillId;
-        this.state = state;
-        this.stateInfo = stateInfo;
+        this.state = state.getState();
+        this.stateInfo = state.getStateInfo();
     }
 
     public long getSeckillId() {
