@@ -20,11 +20,12 @@ public class Exposer {
     public Exposer(boolean exposed, String md5, long seckillId) {
         this.exposed = exposed;
         this.md5 = md5;
-        seckillId = seckillId;
+        this.seckillId = seckillId;
     }
 
-    public Exposer(boolean exposed, long now, long start, long end) {
+    public Exposer(boolean exposed, long seckillId, long now, long start, long end) {
         this.exposed = exposed;
+        this.seckillId = seckillId;
         this.now = now;
         this.start = start;
         this.end = end;
@@ -32,7 +33,7 @@ public class Exposer {
 
     public Exposer(boolean exposed, long seckillId) {
         this.exposed = exposed;
-        seckillId = seckillId;
+        this.seckillId = seckillId;
     }
 
     public boolean isExposed() {

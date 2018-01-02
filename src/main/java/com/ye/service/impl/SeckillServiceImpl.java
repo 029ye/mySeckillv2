@@ -11,7 +11,9 @@ import com.ye.exception.SeckillException;
 import com.ye.service.SeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +23,7 @@ public class SeckillServiceImpl implements SeckillService {
     private SeckillDao seckillDao;
     @Autowired
     private SuccessKillDao successKillDao;
+    private final static String sbase = "hjs&MKkfnskijk^&$%54j54^&$%9034630^U&lj&^&IJKLjl)&^^&$%#$$hjksdhfjk";
 
     public List<Seckill> getSeckillList() {
         return seckillDao.queryAll(0,100);
@@ -31,10 +34,28 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     public Exposer exportSeckillUrl(long seckillId) {
-        return null;
+        Seckill seckill = seckillDao.queryById(seckillId);
+        if (seckill ==null){
+            return new Exposer(false,seckillId);
+        }
+        Date startTime = seckill.getStartTime();
+        Date endTime = seckill.getEndTime();
+        Date nowTime = new Date();
+        if (nowTime.getTime()<startTime.getTime()
+                || nowTime.getTime()>endTime.getTime()){
+            return new Exposer(false,seckillId,nowTime.getTime(),startTime.getTime(),endTime.getTime());
+        }
+        String md5 = getMd5(seckillId);
+        return new Exposer(true,md5,seckillId);
+    }
+
+    private String getMd5(long seckillId) {
+        String base = seckillId+"/"+sbase;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
     public SeckillExecution executeSeckill(long seckillId, long phone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
+        //Todo秒杀逻辑
         return null;
     }
 }
