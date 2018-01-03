@@ -21,7 +21,7 @@
     </bean>
 
     <!--数据库连接池-->
-    <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!--配置连接池属性-->
         <property name="driverClass" value="${driver}"/>
         <property name="jdbcUrl" value="${url}"/>
@@ -42,7 +42,7 @@
     <!--配置SqlSessionFactory对象-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--注入数据库连接池-->
-        <property name="dataSource" ref="datasource"/>
+        <property name="dataSource" ref="dataSource"/>
         <!--配置mybatis 全局配置文件mybatis-config.xml-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!--扫描entity 包-->
