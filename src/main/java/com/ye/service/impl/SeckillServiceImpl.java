@@ -36,11 +36,11 @@ public class SeckillServiceImpl implements SeckillService {
         return seckillDao.queryAll(0, 100);
     }
 
-    public Seckill getById(long id) {
+    public Seckill getById(Long id) {
         return seckillDao.queryById(id);
     }
 
-    public Exposer exportSeckillUrl(long seckillId) {
+    public Exposer exportSeckillUrl(Long seckillId) {
         Seckill seckill = seckillDao.queryById(seckillId);
         if (seckill == null) {
             return new Exposer(false, seckillId);
@@ -56,13 +56,13 @@ public class SeckillServiceImpl implements SeckillService {
         return new Exposer(true, md5, seckillId);
     }
 
-    private String getMd5(long seckillId) {
+    private String getMd5(Long seckillId) {
         String base = seckillId + "/" + sbase;
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
     @Transactional
-    public SeckillExecution executeSeckill(long seckillId, long phone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
+    public SeckillExecution executeSeckill(Long seckillId, Long phone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
         try {
             if (md5 == null || !md5.equals(getMd5(seckillId))) {
                 throw new SeckillException("秒杀数据重复");

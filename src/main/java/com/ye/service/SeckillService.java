@@ -25,14 +25,14 @@ public interface SeckillService {
      * @param id
      * @return
      */
-    Seckill getById(long id);
+    Seckill getById(Long id);
 
     /**
      * 秒杀开启时输出秒杀接口地址
      * 否则输出系统时间和秒杀时间
      * @param seckillId
      */
-    Exposer exportSeckillUrl(long seckillId);
+    Exposer exportSeckillUrl(Long seckillId);
 
     /**
      * 执行秒杀操作
@@ -40,6 +40,6 @@ public interface SeckillService {
      * @param phone
      * @param md5
      */
-    SeckillExecution executeSeckill(long seckillId, long phone, String md5)
+    SeckillExecution executeSeckill(Long seckillId, Long phone, String md5)
             throws SeckillException,RepeatKillException,SeckillCloseException;
 }
