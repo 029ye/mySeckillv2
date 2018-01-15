@@ -25,7 +25,7 @@ public class SeckillServiceTest {
 
     @Test
     public void getById() throws Exception {
-       log.info("查找结果:{}",seckillService.getById(1000));
+       log.info("查找结果:{}",seckillService.getById(1000L));
     }
 
     @Test

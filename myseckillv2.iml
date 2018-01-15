@@ -57,5 +57,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.12.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.3.12.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.3.12.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Tomcat 7.0.57" level="application_server_libraries" />
   </component>
 </module>
