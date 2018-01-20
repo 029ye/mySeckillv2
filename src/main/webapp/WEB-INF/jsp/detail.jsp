@@ -13,6 +13,7 @@
     <%@ include file="common/head.jsp" %>
 </head>
 <body>
+<input type="hidden" id="basePath" value="<%=basePath%>"/>
 <div class="container">
     <div class="panel panel-default  text-center">
         <div class="panel-heading">
@@ -23,7 +24,7 @@
                 <%--显示time图标--%>
                 <span class="glyphicon glyphicon-time"></span>
                 <%--显示倒计时--%>
-                <span class="glyphicon" id="seckill-time"></span>
+                <span class="glyphicon" id="seckill-box"></span>
             </h2>
         </div>
     </div>
@@ -62,13 +63,13 @@
 <script src="https://cdn.bootcss.com/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 <script src="<%=basePath%>resource/seckill.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(function () {
-    seckill.detail.init({
-        seckillId:${seckill.seckillId},
-        startTime:${seckill.startTime.time},
-        endTime:${seckill.endTime.time}
+    $(function () {
+        seckill.detail.init({
+            seckillId:${seckill.seckillId},
+            startTime:${seckill.startTime.time},
+            endTime:${seckill.endTime.time}
+        });
     });
-});
 </script>
 </body>
 </html>
