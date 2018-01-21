@@ -1,6 +1,7 @@
 package com.ye.dao;
 
 import com.ye.entity.SuccessKill;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface SuccessKillDao {
      * @param userPhone
      * @return
      */
-    int insertSuccessKill(long seckillId,Long userPhone);
+    int insertSuccessKill(@Param("seckillId") long seckillId,@Param("userPhone") Long userPhone);
 
     /**
      * 通过id 和 电话 查询秒杀成功明细
@@ -20,7 +21,7 @@ public interface SuccessKillDao {
      * @param userPhone
      * @return
      */
-    SuccessKill queryByIdWithSeckill(long seckillId,Long userPhone);
+    SuccessKill queryByIdWithSeckill(@Param("seckillId") long seckillId,@Param("userPhone") Long userPhone);
 
     /**
      * 查询秒杀成功明细列表

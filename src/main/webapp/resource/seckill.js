@@ -7,9 +7,52 @@ var seckill = {
         nowTimeUrl: function () {
             return seckill.URL.basepath() + 'seckill/time/now';
         },
-        execSeckillUrl: function (seckillId) {
+        exposerUrl: function (seckillId) {
             return seckill.URL.basepath() + 'seckill/' + seckillId + '/exposer';
+        },
+        executionUrl: function (seckillId, md5) {
+            return seckill.URL.basepath() + 'seckill/' + seckillId + '/' + md5 + '/execution';
         }
+    },
+    //执行秒杀逻辑
+    execution:function (seckillId,node) {
+        //创建秒杀按钮
+        node.hide().html('<button type="button" class="btn btn-primary btn-info" id="execSeckillBtn">秒杀</button>');
+        //获取秒杀地址
+        $.post(seckill.URL.exposerUrl(seckillId),{},function (result) {
+            if (result && result['success']){
+               var exposer = result['data'];
+                if (exposer['exposed']){//秒杀开启
+
+                    $('#execSeckillBtn').one('click',function () {
+                        //禁用按钮
+                        $(this).addClass('disabled');
+                        var md5 = exposer['md5'];
+                        var killUrl = seckill.URL.executionUrl(seckillId,md5);
+                        $.post(killUrl,{},function (result) {
+                            if (result && result['success']){
+                                var killResult = result['data'];
+                                var state = killResult['state'];
+                                var stateInfo = killResult['stateInfo'];
+                                node.html('<span class="label label-success">'+stateInfo+'</span>');
+                            }else {
+                                node.html('<span class="label label-danger">'+result['error']+'</span>');
+                            }
+                        });
+                    });
+                    //显示秒杀按钮
+                    node.show();
+                }else {//秒杀未开启
+                    var now  = exposer['now'];
+                    var start  = exposer['start'];
+                    var end  = exposer['end'];
+                    seckill.countdown(seckillId,start,end,now);
+                }
+            }else{
+                console.log(result['error']);
+            }
+        });
+
     },
     //执行倒计时
     countdown: function (seckillId, startTime, endTime, nowTime) {
@@ -26,10 +69,11 @@ var seckill = {
                 // 时间完成后回调事件
             }).on('finish.countdown', function () {
                 // 获取秒杀地址，控制显示逻辑，执行秒杀
-
+                seckill.execution(seckillId,seckillBox);
             });
         } else {
             //秒杀开始
+            seckill.execution(seckillId,seckillBox);
         }
     },
     //验证手机号
