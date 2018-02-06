@@ -1,5 +1,6 @@
 package com.ye.service.impl;
 
+import com.ye.dao.RedisDao;
 import com.ye.dao.SeckillDao;
 import com.ye.dao.SuccessKillDao;
 import com.ye.dto.Exposer;
@@ -29,6 +30,8 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private SeckillDao seckillDao;
     @Autowired
+    private RedisDao redisDao;
+    @Autowired
     private SuccessKillDao successKillDao;
     private final static String sbase = "hjs&MKkfnskijk^&$%54j54^&$%9034630^U&lj&^&IJKLjl)&^^&$%#$$hjksdhfjk";
 
@@ -41,10 +44,20 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     public Exposer exportSeckillUrl(Long seckillId) {
-        Seckill seckill = seckillDao.queryById(seckillId);
-        if (seckill == null) {
-            return new Exposer(false, seckillId);
+        //优化点：缓存优化：超时的基础上维护一致性
+        //1、访问缓存
+        Seckill seckill = redisDao.getSeckill(seckillId);
+        if (seckill == null){
+            //2、访问数据库
+            seckill = seckillDao.queryById(seckillId);
+            if (seckill == null) {
+                return new Exposer(false, seckillId);
+            }else {
+                //3、放入缓存
+                String result = redisDao.putSeckill(seckill);
+            }
         }
+
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
         Date nowTime = new Date();

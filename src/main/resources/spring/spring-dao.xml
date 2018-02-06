@@ -54,4 +54,10 @@
         <!--给出需要扫描Dao 接口包-->
         <property name="basePackage" value="com.ye.dao"/>
     </bean>
+
+    <!--缓存Dao-->
+    <bean id="redisDao" class="com.ye.dao.RedisDao">
+        <constructor-arg name="host" value="${jedisHost}"/>
+        <constructor-arg name="port" value="${jedisPort}"/>
+    </bean>
 </beans>
