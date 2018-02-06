@@ -27,6 +27,7 @@ public class RedisDao {
                 String key = "seckill:" + seckillId;
                 byte[] bytes = jedis.get(key.getBytes());
                 if (bytes != null) {
+                    //反序列化
                     Seckill seckill = schema.newMessage();
                     ProtostuffIOUtil.mergeFrom(bytes, seckill, schema);
                     return seckill;
@@ -46,6 +47,7 @@ public class RedisDao {
             try {
                 if (seckill != null) {
                     String key = "seckill:" + seckill.getSeckillId();
+                    //序列化
                     byte[] bytes = ProtostuffIOUtil.toByteArray(seckill, schema,
                             LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
                     Integer time = 60 * 60;//后端缓存时间秒
