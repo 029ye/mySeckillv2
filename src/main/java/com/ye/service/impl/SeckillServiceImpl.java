@@ -81,18 +81,21 @@ public class SeckillServiceImpl implements SeckillService {
                 throw new SeckillException("秒杀数据重复");
             }
             Date nowTime = new Date();
-            int reduceNumber = seckillDao.reduceNumber(seckillId, nowTime);
-            if (reduceNumber <= 0) {
-                throw new SeckillCloseException("秒杀已结束");
+
+            int insertNumber = successKillDao.insertSuccessKill(seckillId, phone);
+            if (insertNumber <= 0) {
+                throw new RepeatKillException("重复秒杀");
             } else {
-                int insertNumber = successKillDao.insertSuccessKill(seckillId, phone);
-                if (insertNumber <= 0) {
-                    throw new RepeatKillException("重复秒杀");
+                int reduceNumber = seckillDao.reduceNumber(seckillId, nowTime);
+                if (reduceNumber <= 0) {
+                    throw new SeckillCloseException("秒杀已结束");
                 } else {
                     SuccessKill successKill = successKillDao.queryByIdWithSeckill(seckillId, phone);
                     return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS, successKill);
                 }
             }
+
+
         } catch (SeckillCloseException e) {
             throw e;
         } catch (RepeatKillException e) {
