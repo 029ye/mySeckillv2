@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface SeckillDao {
 
@@ -30,5 +31,11 @@ public interface SeckillDao {
      * @return
      */
     List<Seckill> queryAll(@Param("offet") int offet, @Param("limit") int limit);
+
+    /**
+     * 执行秒杀存储过程
+     * @param map
+     */
+    void executeSeckillPro(Map<String,Object> map);
 
 }

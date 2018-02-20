@@ -10,8 +10,8 @@ public class RedisTest {
 
     @Test
     public void jedisTest(){
-        Jedis jedis = new Jedis("192.168.1.78",6379);
-        System.out.println(jedis.get("ye"));
+        Jedis jedis = new Jedis("192.168.2.105",6379);
+        System.out.println(jedis.get("hi"));
         jedis.close();
     }
 }
